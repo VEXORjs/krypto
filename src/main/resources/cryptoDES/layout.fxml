@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="15.0" alignment="CENTER" prefWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cryptoDES.Controller">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <Label text="DES Encryptor">
+        <font>
+            <Font name="System Bold" size="20.0"/>
+        </font>
+    </Label>
+
+    <HBox spacing="20.0" alignment="CENTER_LEFT">
+        <Label text="Tryb wejścia:"/>
+        <RadioButton fx:id="textModeRadio" text="Tekst" selected="true" onAction="#handleModeChange">
+            <toggleGroup><ToggleGroup fx:id="modeGroup"/></toggleGroup>
+        </RadioButton>
+        <RadioButton fx:id="fileModeRadio" text="Plik" toggleGroup="$modeGroup" onAction="#handleModeChange"/>
+    </HBox>
+
+    <VBox fx:id="textSection" spacing="10.0">
+        <VBox spacing="5.0">
+            <Label text="Tekst wejściowy:"/>
+            <TextArea fx:id="inputTextArea" promptText="Wpisz tekst lub wklej Base64 do odszyfrowania..." prefHeight="80.0" wrapText="true"/>
+        </VBox>
+
+        <VBox spacing="5.0">
+            <Label text="Wynik operacji:"/>
+            <TextArea fx:id="outputTextArea" promptText="Tu pojawi się wynik operacji..." prefHeight="80.0" wrapText="true" editable="false" style="-fx-control-inner-background: #f4f4f4;"/>
+        </VBox>
+    </VBox>
+
+    <VBox fx:id="fileSection" spacing="5.0" visible="false" managed="false">
+        <Label text="Plik do przetworzenia:"/>
+        <HBox spacing="10.0">
+            <TextField fx:id="filePathField" promptText="Wybierz plik..." HBox.hgrow="ALWAYS" editable="false"/>
+            <Button text="Przeglądaj" onAction="#handleBrowse"/>
+        </HBox>
+    </VBox>
+    <VBox spacing="5.0">
+        <Label text="Klucz (8 bajtów):"/>
+        <HBox spacing="10.0">
+            <PasswordField fx:id="keyField" promptText="Wpisz klucz..." HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </VBox>
+
+    <HBox spacing="10.0" alignment="CENTER">
+        <Button text="Generuj klucz" onAction="#handleGenerateKey" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+        <Button text="Zapisz klucz" onAction="#handleSaveKey" style="-fx-background-color: #FF9800; -fx-text-fill: white;"/>
+        <Button text="Wczytaj z pliku" onAction="#handleLoadKeyFile" style="-fx-background-color: #09C2DE; -fx-text-fill: white;"/>
+    </HBox>
+
+    <HBox spacing="20.0" alignment="CENTER">
+        <Button text="SZYFRUJ" onAction="#handleEncrypt" prefWidth="100.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+        <Button text="DESZYFRUJ" onAction="#handleDecrypt" prefWidth="100.0" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+    </HBox>
+
+    <Label fx:id="statusLabel" text="Status: Oczekiwanie..." textFill="#666666"/>
+</VBox>
