@@ -84,22 +84,9 @@ Encrypting Files
 
     Click "SZYFRUJ". A new file with the .des extension will be created.
 
-📂 Project Structure
-Plaintext
-
-src/main/java/cryptoDES/
-├── App.java                # Main entry point (JavaFX Application)
-├── Controller.java         # UI Logic and Event Handling
-├── DES_cipher.java         # Core DES algorithm (Feistel, S-Boxes)
-├── DES_KeyGenerator.java   # Key schedule and permutations
-├── DES_encrypt.java        # Helper classes for padding and bits
-└── layout.fxml             # UI definition (XML)
-
 ⚠️ Disclaimer
 
 This project was created for educational purposes to demonstrate how the DES algorithm works. For production-level security, it is recommended to use AES (Advanced Encryption Standard), as DES is considered cryptographically weak against modern brute-force attacks.
 📄 License
 
 This project is open-source and available under the MIT License.
-
-Czy chciałbyś, abym dodał do tego dokumentu coś jeszcze, np. sekcję o tym, jak działają S-boxy w Twoim kodzie, czy na razie to wystarczy?
