@@ -168,7 +168,7 @@ public class Controller {
                     outputTextArea.setText(new String(result));
                     statusLabel.setText("Tekst odszyfrowany pomyślnie.");
                 } else {
-                    saveFile(result, selectedFile.getAbsolutePath().replace(".des", "_decrypted"));
+                    saveFile(result, selectedFile.getAbsolutePath().replace(".des", ""));
                     statusLabel.setText("Plik został odszyfrowany.");
                 }
             }
