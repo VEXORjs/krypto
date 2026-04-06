@@ -137,7 +137,6 @@ public class Controller {
             if (textModeRadio.isSelected()) {
                 String inputText = inputTextArea.getText();
                 if (inputText.isEmpty()) throw new Exception("Pole wejściowe jest puste!");
-
                 inputData = decrypt ? java.util.Base64.getDecoder().decode(inputText) : inputText.getBytes();
             } else {
                 if (selectedFile == null) throw new Exception("Nie wybrano pliku!");
@@ -148,33 +147,39 @@ public class Controller {
             byte[] result;
 
             if (!decrypt) {
-
                 result = performDES(padPKCS7(inputData), subkeys, false);
-
-                if (textModeRadio.isSelected()) {
-                    String base64Result = java.util.Base64.getEncoder().encodeToString(result);
-                    outputTextArea.setText(base64Result);
-                    statusLabel.setText("Zaszyfrowano do Base64.");
-                } else {
-                    saveFile(result, selectedFile.getAbsolutePath() + ".des");
-                    statusLabel.setText("Plik .des został zapisany.");
-                }
             } else {
-
                 result = performDES(inputData, subkeys, true);
                 result = unpadPKCS7(result);
+            }
 
-                if (textModeRadio.isSelected()) {
-                    outputTextArea.setText(new String(result));
-                    statusLabel.setText("Tekst odszyfrowany pomyślnie.");
+            if (textModeRadio.isSelected()) {
+                if (!decrypt) {
+                    outputTextArea.setText(java.util.Base64.getEncoder().encodeToString(result));
                 } else {
-                    saveFile(result, selectedFile.getAbsolutePath().replace(".des", ""));
-                    statusLabel.setText("Plik został odszyfrowany.");
+                    outputTextArea.setText(new String(result));
+                }
+                statusLabel.setText("Operacja na tekście zakończona.");
+            } else {
+
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Zapisz plik wynikowy");
+
+                String suggestedName = decrypt ?
+                        selectedFile.getName().replace(".des", ""):
+                        selectedFile.getName() + ".des";
+
+                fileChooser.setInitialFileName(suggestedName);
+
+                File fileToSave = fileChooser.showSaveDialog(null);
+
+                if (fileToSave != null) {
+                    Files.write(fileToSave.toPath(), result);
+                    statusLabel.setText("Zapisano plik: " + fileToSave.getName());
+                } else {
+                    statusLabel.setText("Anulowano zapis pliku.");
                 }
             }
-        } catch (IllegalArgumentException e) {
-            statusLabel.setText("Błąd: Tekst wejściowy nie jest poprawnym Base64!");
-            logger.error(e.getMessage());
         } catch (Exception e) {
             statusLabel.setText("Błąd: ");
             logger.error(e.getMessage());
